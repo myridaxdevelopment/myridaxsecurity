@@ -94,12 +94,12 @@ else
   echo "Pterodactyl Wings installation skipped. You can run it manually when ready." | tee -a "$LOG_FILE"
 fi
 
-# ASCII Art Box
+# ASCII Completed
 echo -e "\e[34m╭─────────────────────────────────────────────────────╮\e[0m" | tee -a "$LOG_FILE"
 echo -e "\e[34m│                                                     │\e[0m" | tee -a "$LOG_FILE"
-echo -e "\e[34m│  \e[0mScript Version: \e[34m$SCRIPT_VERSION installed!\e[0m  \e[34m│\e[0m" | tee -a "$LOG_FILE"
-echo -e "\e[34m│                                                     │\e[0m" | tee -a "$LOG_FILE"
+echo -e "\e[34m│  \e[0mMyridax Security » Script Version: \e[34m$SCRIPT_VERSION installed!\e[0m  \e[34m│\e[0m" | tee -a "$LOG_FILE"
 echo -e "\e[34m│  \e[0mThank you for using this script!\e[34m          │\e[0m" | tee -a "$LOG_FILE"
+echo -e "\e[34m│  \e[0mThis has been coded and developed by Amir Kadir\e[34m   │\e[0m" | tee -a "$LOG_FILE"
 echo -e "\e[34m│                                                     │\e[0m" | tee -a "$LOG_FILE"
 echo -e "\e[34m╰─────────────────────────────────────────────────────╯\e[0m" | tee -a "$LOG_FILE"
 
