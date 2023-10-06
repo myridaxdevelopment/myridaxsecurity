@@ -33,6 +33,11 @@ EOL
   sudo service fail2ban restart
 }
 
+# Update
+sudo apt install
+sudo apt upgrade
+sudo apt autoremove
+
 # Create a 24GB swap file
 sudo fallocate -l 24G /swapfile
 sudo chmod 600 /swapfile
