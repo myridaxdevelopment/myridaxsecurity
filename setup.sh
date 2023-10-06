@@ -32,4 +32,13 @@ sudo apt-get install iptables-persistent -y
 sudo netfilter-persistent save
 sudo netfilter-persistent reload
 
-echo "Myridax Script execution completed. You can now proceed with the Pterodactyl Wings installation."
+# Prompt user to run Pterodactyl Wings installation
+read -p "Do you want to run the Pterodactyl Wings installation now? (Y/N): " INSTALL_WINGS
+if [ "$INSTALL_WINGS" == "Y" ] || [ "$INSTALL_WINGS" == "y" ]; then
+  # Run the Pterodactyl Wings installation script
+  bash <(curl -s https://pterodactyl-installer.se/)
+else
+  echo "Pterodactyl Wings installation skipped. You can run it manually when ready."
+fi
+
+echo "Myridax Script execution completed."
