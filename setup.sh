@@ -3,6 +3,36 @@
 # Log file for script output
 LOG_FILE="/var/log/myridax_script.log"
 
+# Function to add Fail2Ban rules
+configure_fail2ban() {
+  sudo apt-get update
+  sudo apt-get install fail2ban -y
+
+  # Create a custom jail.local file for Fail2Ban
+  sudo tee /etc/fail2ban/jail.local > /dev/null <<EOL
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 5
+findtime = 600
+bantime = 3600
+
+[nginx-http-auth]
+enabled = true
+port = http,https
+filter = nginx-http-auth
+logpath = /var/log/nginx/error.log
+maxretry = 6
+findtime = 600
+bantime = 3600
+EOL
+
+  # Restart Fail2Ban to apply the new configuration
+  sudo service fail2ban restart
+}
+
 # Create a 24GB swap file
 sudo fallocate -l 24G /swapfile
 sudo chmod 600 /swapfile
@@ -35,6 +65,9 @@ sudo apt-get install iptables-persistent -y
 sudo netfilter-persistent save
 sudo netfilter-persistent reload
 
+# Install and configure Fail2Ban
+configure_fail2ban
+
 # Prompt user to run the Pterodactyl Wings installation
 read -p "Do you want to run the Pterodactyl Wings installation now? (Y/N): " INSTALL_WINGS
 if [ "$INSTALL_WINGS" == "Y" ] || [ "$INSTALL_WINGS" == "y" ]; then
@@ -43,5 +76,12 @@ if [ "$INSTALL_WINGS" == "Y" ] || [ "$INSTALL_WINGS" == "y" ]; then
 else
   echo "Pterodactyl Wings installation skipped. You can run it manually when ready." | tee -a "$LOG_FILE"
 fi
+
+# ASCII Art Box
+echo "##################################################" | tee -a "$LOG_FILE"
+echo "#                                                #" | tee -a "$LOG_FILE"
+echo "#  Script successfully installed!                #" | tee -a "$LOG_FILE"
+echo "#                                                #" | tee -a "$LOG_FILE"
+echo "##################################################" | tee -a "$LOG_FILE"
 
 echo "Myridax Script execution completed." | tee -a "$LOG_FILE"
