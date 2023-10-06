@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Version of the script
-SCRIPT_VERSION="0.4"
+SCRIPT_VERSION="1.2"
 
 # Log file for script output
 LOG_FILE="/var/log/myridax_script.log"
