@@ -94,37 +94,11 @@ else
   echo "Pterodactyl Wings installation skipped. You can run it manually when ready." | tee -a "$LOG_FILE"
 fi
 
-# Determine the length of the text line
-text="Myridax Security » Script Version: $SCRIPT_VERSION installed!"
-text_length=${#text}
-
-# Define the border
-border_length=54  # You can adjust this to fit your desired width
-
-# Calculate the number of spaces to center the text
-padding_length=$(( ($border_length - $text_length - 2) / 2 ))
-
-# Create the border with centered text
-border=""
-for ((i=1; i<=padding_length; i++))
-do
-  border+="#"
-done
-
-border+=" $text "
-
-for ((i=1; i<=padding_length; i++))
-do
-  border+="#"
-done
-
-echo "$border" | tee -a "$LOG_FILE"
-
-echo "# Thank you for using this script!" | tee -a "$LOG_FILE"
-
-echo "# This has been coded and developed by Amir Kadir" | tee -a "$LOG_FILE"
-
-# Close the box
-echo "$border" | tee -a "$LOG_FILE"
+# Print the lines with blue color
+echo -e "${BLUE}##################################################${RESET}" | tee -a "$LOG_FILE"
+echo -e "${BLUE}#                                                #${RESET}" | tee -a "$LOG_FILE"
+echo -e "${BLUE}#  Script Version: $SCRIPT_VERSION installed!    #${RESET}" | tee -a "$LOG_FILE"
+echo -e "${BLUE}#                                                #${RESET}" | tee -a "$LOG_FILE"
+echo -e "${BLUE}##################################################${RESET}" | tee -a "$LOG_FILE"
 
 echo "Myridax Script execution completed." | tee -a "$LOG_FILE"
