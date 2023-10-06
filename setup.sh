@@ -44,6 +44,32 @@ sudo swapon /swapfile
 sudo iptables -A INPUT -i eth0 -p tcp --dport 80 -m conntrack --ctstate NEW -m limit --limit 50/s -j ACCEPT
 sudo iptables -A INPUT -i eth0 -p tcp --dport 80 -m conntrack --ctstate NEW -j DROP
 
+# Block specific ports using iptables
+sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 465 -j DROP
+sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 25 -j DROP
+sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 26 -j DROP
+sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 995 -j DROP
+sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 143 -j DROP
+sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 22 -j DROP
+sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 110 -j DROP
+sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 993 -j DROP
+sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 587 -j DROP
+sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 5222 -j DROP
+sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 5269 -j DROP
+sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 5443 -j DROP
+sudo iptables -I FORWARD 1 -p udp -m udp --dport 465 -j DROP
+sudo iptables -I FORWARD 1 -p udp -m udp --dport 25 -j DROP
+sudo iptables -I FORWARD 1 -p udp -m udp --dport 26 -j DROP
+sudo iptables -I FORWARD 1 -p udp -m udp --dport 995 -j DROP
+sudo iptables -I FORWARD 1 -p udp -m udp --dport 143 -j DROP
+sudo iptables -I FORWARD 1 -p udp -m udp --dport 22 -j DROP
+sudo iptables -I FORWARD 1 -p udp -m udp --dport 110 -j DROP
+sudo iptables -I FORWARD 1 -p udp -m udp --dport 993 -j DROP
+sudo iptables -I FORWARD 1 -p udp -m udp --dport 587 -j DROP
+sudo iptables -I FORWARD 1 -p udp -m udp --dport 5222 -j DROP
+sudo iptables -I FORWARD 1 -p udp -m udp --dport 5269 -j DROP
+sudo iptables -I FORWARD 1 -p udp -m udp --dport 5443 -j DROP
+
 # Set a 40GB storage limit and 50Mbps network bandwidth limit for all Docker containers in the directory
 DIRECTORY="/var/lib/pterodactyl/volumes/*"
 for CONTAINER_UUID in $(docker ps -q); do
