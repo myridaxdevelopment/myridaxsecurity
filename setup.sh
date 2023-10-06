@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Log file for script output
+LOG_FILE="/var/log/myridax_script.log"
+
 # Create a 24GB swap file
 sudo fallocate -l 24G /swapfile
 sudo chmod 600 /swapfile
@@ -25,20 +28,20 @@ sudo iptables -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW -j DROP
 
 # Enable UFW and allow port 8443
 sudo ufw enable
-sudo ufw allow 8443
+sudo ufw allow 8443/tcp
 
 # Save the iptables rules and Docker daemon configuration to persist across reboots
 sudo apt-get install iptables-persistent -y
 sudo netfilter-persistent save
 sudo netfilter-persistent reload
 
-# Prompt user to run Pterodactyl Wings installation
+# Prompt user to run the Pterodactyl Wings installation
 read -p "Do you want to run the Pterodactyl Wings installation now? (Y/N): " INSTALL_WINGS
 if [ "$INSTALL_WINGS" == "Y" ] || [ "$INSTALL_WINGS" == "y" ]; then
-  # Run the Pterodactyl Wings installation script
-  bash <(curl -s https://pterodactyl-installer.se/)
+  # Run the Pterodactyl Wings installation script with logging
+  bash <(curl -s https://pterodactyl-installer.se/) 2>&1 | tee -a "$LOG_FILE"
 else
-  echo "Pterodactyl Wings installation skipped. You can run it manually when ready."
+  echo "Pterodactyl Wings installation skipped. You can run it manually when ready." | tee -a "$LOG_FILE"
 fi
 
-echo "Myridax Script execution completed."
+echo "Myridax Script execution completed." | tee -a "$LOG_FILE"
