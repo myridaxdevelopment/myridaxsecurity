@@ -95,10 +95,17 @@ else
 fi
 
 # ASCII Art Box
-echo "##################################################" | tee -a "$LOG_FILE"
-echo "#                                                #" | tee -a "$LOG_FILE"
-echo "#  Script Version: $SCRIPT_VERSION installed!    #" | tee -a "$LOG_FILE"
-echo "#                                                #" | tee -a "$LOG_FILE"
-echo "##################################################" | tee -a "$LOG_FILE"
+#!/bin/bash
+
+LOG_FILE="your_log_file.log"
+SCRIPT_VERSION="1.0"
+
+echo -e "\e[34m╭─────────────────────────────────────────────────────╮\e[0m" | tee -a "$LOG_FILE"
+echo -e "\e[34m│                                                     │\e[0m" | tee -a "$LOG_FILE"
+echo -e "\e[34m│  \e[0mScript Version: \e[34m$SCRIPT_VERSION installed!\e[0m  \e[34m│\e[0m" | tee -a "$LOG_FILE"
+echo -e "\e[34m│                                                     │\e[0m" | tee -a "$LOG_FILE"
+echo -e "\e[34m│  \e[0mThank you for using this script!\e[34m                   │\e[0m" | tee -a "$LOG_FILE"
+echo -e "\e[34m│                                                     │\e[0m" | tee -a "$LOG_FILE"
+echo -e "\e[34m╰─────────────────────────────────────────────────────╯\e[0m" | tee -a "$LOG_FILE"
 
 echo "Myridax Script execution completed." | tee -a "$LOG_FILE"
