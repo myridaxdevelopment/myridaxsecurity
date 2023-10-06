@@ -94,13 +94,37 @@ else
   echo "Pterodactyl Wings installation skipped. You can run it manually when ready." | tee -a "$LOG_FILE"
 fi
 
-# ASCII Completed
-echo -e "\e[34m╭─────────────────────────────────────────────────────╮\e[0m" | tee -a "$LOG_FILE"
-echo -e "\e[34m│                                                     │\e[0m" | tee -a "$LOG_FILE"
-echo -e "\e[34m│  \e[0mMyridax Security » Script Version: $SCRIPT_VERSION installed!\e[34m │\e[0m" | tee -a "$LOG_FILE"
-echo -e "\e[34m│  \e[0mThank you for using this script!\e[34m                   │\e[0m" | tee -a "$LOG_FILE"
-echo -e "\e[34m│  \e[0mThis has been coded and developed by Amir Kadir\e[34m   │\e[0m" | tee -a "$LOG_FILE"
-echo -e "\e[34m│                                                     │\e[0m" | tee -a "$LOG_FILE"
-echo -e "\e[34m╰─────────────────────────────────────────────────────╯\e[0m" | tee -a "$LOG_FILE"
+# Determine the length of the text line
+text="Myridax Security » Script Version: $SCRIPT_VERSION installed!"
+text_length=${#text}
+
+# Define the border
+border_length=54  # You can adjust this to fit your desired width
+
+# Calculate the number of spaces to center the text
+padding_length=$(( ($border_length - $text_length - 2) / 2 ))
+
+# Create the border with centered text
+border=""
+for ((i=1; i<=padding_length; i++))
+do
+  border+="#"
+done
+
+border+=" $text "
+
+for ((i=1; i<=padding_length; i++))
+do
+  border+="#"
+done
+
+echo "$border" | tee -a "$LOG_FILE"
+
+echo "# Thank you for using this script!" | tee -a "$LOG_FILE"
+
+echo "# This has been coded and developed by Amir Kadir" | tee -a "$LOG_FILE"
+
+# Close the box
+echo "$border" | tee -a "$LOG_FILE"
 
 echo "Myridax Script execution completed." | tee -a "$LOG_FILE"
