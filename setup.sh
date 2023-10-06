@@ -95,10 +95,10 @@ else
 fi
 
 # Print the lines with blue color
-echo -e "${BLUE}##################################################${RESET}" | tee -a "$LOG_FILE"
-echo -e "${BLUE}#                                                #${RESET}" | tee -a "$LOG_FILE"
-echo -e "${BLUE}#  Script Version: $SCRIPT_VERSION installed!    #${RESET}" | tee -a "$LOG_FILE"
-echo -e "${BLUE}#                                                #${RESET}" | tee -a "$LOG_FILE"
-echo -e "${BLUE}##################################################${RESET}" | tee -a "$LOG_FILE"
+echo "##################################################" | tee -a "$LOG_FILE"
+echo "#                                                #" | tee -a "$LOG_FILE"
+echo "#  Script Version: $SCRIPT_VERSION installed!    #" | tee -a "$LOG_FILE"
+echo "#                                                #" | tee -a "$LOG_FILE"
+echo "##################################################" | tee -a "$LOG_FILE"
 
 echo "Myridax Script execution completed." | tee -a "$LOG_FILE"
