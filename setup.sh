@@ -38,8 +38,8 @@ EOL
 
 # Update
 sudo apt update
-sudo apt upgrade -y
-sudo apt autoremove -y
+sudo apt upgrade 
+sudo apt autoremove 
 
 # Create a 24GB swap file
 sudo fallocate -l 24G /swapfile
@@ -72,7 +72,7 @@ sudo iptables -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW -m limit --l
 sudo iptables -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW -j DROP
 
 # Enable UFW and allow port 8443
-sudo ufw enable -y
+sudo ufw enable 
 sudo ufw allow 8443/tcp
 
 # Save the iptables rules and Docker daemon configuration to persist across reboots
