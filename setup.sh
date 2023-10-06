@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Version of the script
+SCRIPT_VERSION="0.4"
+
 # Log file for script output
 LOG_FILE="/var/log/myridax_script.log"
 
@@ -34,9 +37,9 @@ EOL
 }
 
 # Update
-sudo apt install
-sudo apt upgrade
-sudo apt autoremove
+sudo apt update
+sudo apt upgrade -y
+sudo apt autoremove -y
 
 # Create a 24GB swap file
 sudo fallocate -l 24G /swapfile
@@ -50,30 +53,11 @@ sudo iptables -A INPUT -i eth0 -p tcp --dport 80 -m conntrack --ctstate NEW -m l
 sudo iptables -A INPUT -i eth0 -p tcp --dport 80 -m conntrack --ctstate NEW -j DROP
 
 # Block specific ports using iptables
-sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 465 -j DROP
-sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 25 -j DROP
-sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 26 -j DROP
-sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 995 -j DROP
-sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 143 -j DROP
-sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 22 -j DROP
-sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 110 -j DROP
-sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 993 -j DROP
-sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 587 -j DROP
-sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 5222 -j DROP
-sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 5269 -j DROP
-sudo iptables -I FORWARD 1 -p tcp -m tcp --dport 5443 -j DROP
-sudo iptables -I FORWARD 1 -p udp -m udp --dport 465 -j DROP
-sudo iptables -I FORWARD 1 -p udp -m udp --dport 25 -j DROP
-sudo iptables -I FORWARD 1 -p udp -m udp --dport 26 -j DROP
-sudo iptables -I FORWARD 1 -p udp -m udp --dport 995 -j DROP
-sudo iptables -I FORWARD 1 -p udp -m udp --dport 143 -j DROP
-sudo iptables -I FORWARD 1 -p udp -m udp --dport 22 -j DROP
-sudo iptables -I FORWARD 1 -p udp -m udp --dport 110 -j DROP
-sudo iptables -I FORWARD 1 -p udp -m udp --dport 993 -j DROP
-sudo iptables -I FORWARD 1 -p udp -m udp --dport 587 -j DROP
-sudo iptables -I FORWARD 1 -p udp -m udp --dport 5222 -j DROP
-sudo iptables -I FORWARD 1 -p udp -m udp --dport 5269 -j DROP
-sudo iptables -I FORWARD 1 -p udp -m udp --dport 5443 -j DROP
+blocked_ports=(465 25 26 995 143 22 110 993 587 5222 5269 5443)
+for port in "${blocked_ports[@]}"; do
+  sudo iptables -I FORWARD 1 -p tcp -m tcp --dport "$port" -j DROP
+  sudo iptables -I FORWARD 1 -p udp -m udp --dport "$port" -j DROP
+done
 
 # Set a 40GB storage limit and 50Mbps network bandwidth limit for all Docker containers in the directory
 DIRECTORY="/var/lib/pterodactyl/volumes/*"
@@ -88,7 +72,7 @@ sudo iptables -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW -m limit --l
 sudo iptables -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW -j DROP
 
 # Enable UFW and allow port 8443
-sudo ufw enable
+sudo ufw enable -y
 sudo ufw allow 8443/tcp
 
 # Save the iptables rules and Docker daemon configuration to persist across reboots
@@ -103,7 +87,9 @@ configure_fail2ban
 read -p "Do you want to run the Pterodactyl Wings installation now? (Y/N): " INSTALL_WINGS
 if [ "$INSTALL_WINGS" == "Y" ] || [ "$INSTALL_WINGS" == "y" ]; then
   # Run the Pterodactyl Wings installation script with logging
+  echo "Installing Pterodactyl Wings..." | tee -a "$LOG_FILE"
   bash <(curl -s https://pterodactyl-installer.se/) 2>&1 | tee -a "$LOG_FILE"
+  echo "Pterodactyl Wings installation completed." | tee -a "$LOG_FILE"
 else
   echo "Pterodactyl Wings installation skipped. You can run it manually when ready." | tee -a "$LOG_FILE"
 fi
@@ -111,7 +97,7 @@ fi
 # ASCII Art Box
 echo "##################################################" | tee -a "$LOG_FILE"
 echo "#                                                #" | tee -a "$LOG_FILE"
-echo "#  Script successfully installed!                #" | tee -a "$LOG_FILE"
+echo "#  Script Version: $SCRIPT_VERSION installed!    #" | tee -a "$LOG_FILE"
 echo "#                                                #" | tee -a "$LOG_FILE"
 echo "##################################################" | tee -a "$LOG_FILE"
 
