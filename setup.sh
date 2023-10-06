@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Update
-apt install
-apt upgrade
-sudo apt autoremove
-
 # Create a 24GB swap file
 sudo fallocate -l 24G /swapfile
 sudo chmod 600 /swapfile
@@ -16,17 +11,12 @@ sudo swapon /swapfile
 sudo iptables -A INPUT -i eth0 -p tcp --dport 80 -m conntrack --ctstate NEW -m limit --limit 50/s -j ACCEPT
 sudo iptables -A INPUT -i eth0 -p tcp --dport 80 -m conntrack --ctstate NEW -j DROP
 
-# Remove Docker container bandwidth limits
-# To remove the bandwidth limits, you need to delete the qdisc for each container.
-# Replace 'CONTAINER_UUID' with the UUID of your Docker container
-docker exec CONTAINER_UUID tc qdisc del dev eth0 root
-
-# Remove Docker container storage limits
-# You can remove the custom storage options from the Docker daemon configuration.
-sudo sed -i '/storage-opts/d' /etc/docker/daemon.json
-
-# Restart the Docker daemon to apply the changes
-sudo systemctl restart docker
+# Set a 40GB storage limit and 50Mbps network bandwidth limit for all Docker containers in the directory
+DIRECTORY="/var/lib/pterodactyl/volumes/*"
+for CONTAINER_UUID in $(docker ps -q); do
+  docker exec $CONTAINER_UUID tc qdisc add dev eth0 root tbf rate 50mbit burst 10kbit latency 50ms
+  docker update --storage-opt size=40G $CONTAINER_UUID
+done
 
 # Configure iptables rate limiting to protect against DDoS attacks (adjust as needed)
 # This example rate limits incoming traffic to 10 requests per second on port 80
