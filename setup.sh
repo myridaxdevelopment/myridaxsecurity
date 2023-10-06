@@ -97,7 +97,7 @@ fi
 # ASCII Completed
 echo -e "\e[34m╭─────────────────────────────────────────────────────╮\e[0m" | tee -a "$LOG_FILE"
 echo -e "\e[34m│                                                     │\e[0m" | tee -a "$LOG_FILE"
-echo -e "\e[34m│  \e[0mMyridax Security » Script Version: $SCRIPT_VERSION installed!\e[34m  │\e[0m" | tee -a "$LOG_FILE"
+echo -e "\e[34m│  \e[0mMyridax Security » Script Version: $SCRIPT_VERSION installed!\e[34m │\e[0m" | tee -a "$LOG_FILE"
 echo -e "\e[34m│  \e[0mThank you for using this script!\e[34m          │\e[0m" | tee -a "$LOG_FILE"
 echo -e "\e[34m│  \e[0mThis has been coded and developed by Amir Kadir\e[34m   │\e[0m" | tee -a "$LOG_FILE"
 echo -e "\e[34m│                                                     │\e[0m" | tee -a "$LOG_FILE"
