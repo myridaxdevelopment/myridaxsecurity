@@ -74,6 +74,8 @@ sudo iptables -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW -j DROP
 # Enable UFW and allow port 8443
 sudo ufw enable 
 sudo ufw allow 8443/tcp
+sudo ufw allow 5000:5999/tcp
+sudo ufw allow 5000:5999/udp
 
 # Save the iptables rules and Docker daemon configuration to persist across reboots
 sudo apt-get install iptables-persistent -y
